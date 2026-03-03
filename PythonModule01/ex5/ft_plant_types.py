@@ -2,7 +2,11 @@ class Plant:
     def __init__(self, name, height, age):
         self.name = name
         self.height = height
-        self.plant_age = age
+        self.age = age
+
+    def __str__(self):
+        classname = self.__class__.__name__
+        return f"{self.name} ({classname}): {self.height}cm, {self.age} days"
 
 
 class Flower(Plant):
@@ -11,7 +15,10 @@ class Flower(Plant):
         self.color = color
 
     def bloom(self):
-        return f"{self.name} is blooming beautifully!"
+        print(f"{self.name} is blooming beautifully!\n")
+
+    def __str__(self):
+        return super().__str__() + f", {self.color} color"
 
 
 class Tree(Plant):
@@ -20,7 +27,10 @@ class Tree(Plant):
         self.trunk_diameter = trunk_diameter
 
     def produce_shade(self):
-        return f"{self.name} provides 78 square meters of shade"
+        print(f"{self.name} provides 78 square meters of shade\n")
+
+    def __str__(self):
+        return super().__str__() + f", {self.trunk_diameter}cm diameter"
 
 
 class Vegetable(Plant):
@@ -29,33 +39,23 @@ class Vegetable(Plant):
         self.harvest_season = harvest_season
 
     def nutritional_value(self):
-        return f"{self.name} is rich in vitamin C"
+        print(f"{self.name} is rich in vitamin C")
+
+    def __str__(self):
+        return super().__str__() + f", {self.harvest_season} harvest"
 
 
 if __name__ == "__main__":
     print("=== Garden Plant Types ===\n")
-    flower: Flower = Flower("Rose", 25, 30, "red")
-    name = flower.name
-    height = flower.height
-    age = flower.plant_age
-    color = (flower.color + " color")
-    print(f"{name} (Flower): {height}cm, {age} days, {color}")
-    print(flower.bloom())
-    print("")
-
-    tree: Tree = Tree("Oak", 500, 1825, 50)
-    name = tree.name
-    height = tree.height
-    age = tree.plant_age
-    diameter = tree.trunk_diameter
-    print(f"{name} (Tree): {height}cm, {age} days, {diameter}cm diameter")
-    print(tree.produce_shade())
-    print("")
-
-    vegetable: Vegetable = Vegetable("Tomato", 80, 90, "summer")
-    name = vegetable.name
-    height = vegetable.height
-    age = vegetable.plant_age
-    season = (vegetable.harvest_season + " harvest")
-    print(f"{name} (Vegetable): {height}cm, {age} days, {season}")
-    print(vegetable.nutritional_value())
+    '#ROSE'
+    rose = Flower("Rose", 25, 30, "red")
+    print(rose)
+    rose.bloom()
+    '#OAK'
+    oak = Tree("Oak", 500, 1825, 50)
+    print(oak)
+    oak.produce_shade()
+    '#TOMATO'
+    tomato = Vegetable("Tomato", 80, 90, "summer")
+    print(tomato)
+    tomato.nutritional_value()
