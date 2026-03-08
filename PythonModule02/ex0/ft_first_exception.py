@@ -8,13 +8,11 @@ def check_temperature(temp_str):
 
     try:
         if value > 40:
-            raise ValueError(
-                f"Error: {value}°C is too hot for plants (max 40°C)\n")
+            raise ValueError(f"{value}°C is too hot for plants (max 40°C)\n")
         if value < 0:
-            raise ValueError(
-                f"Error: {value}°C is too cold for plants (min 0°C)\n")
+            raise ValueError(f"{value}°C is too cold for plants (min 0°C)\n")
     except ValueError as e:
-        print(e)
+        print(f"Error: {e}")
         return None
 
     print(f"Temperature {value}°C is perfect for plants!\n")

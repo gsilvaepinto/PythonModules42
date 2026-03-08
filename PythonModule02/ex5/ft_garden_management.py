@@ -17,40 +17,40 @@ class GardenManager:
         except ValueError as e:
             print(f"Error adding plant: {e}")
 
-    def watering(self):
-        print("Opening watering system")
+    def water_plants(self):
         try:
+            print("Opening watering system")
             if not self.plants:
                 raise ValueError("Garden is empty!")
             for plant in self.plants:
                 print(f"Watering {plant['plant']} - success")
         except ValueError as e:
-            print(f"Error watering plants: {e}")
+            print(f"Error opening watering system: {e}")
         finally:
             print("Closing watering system (cleanup)")
 
     def check_plant_health(self, plant):
         try:
-            if plant['water'] > 10:
+            if plant["water"] > 10:
                 raise ValueError(
                     f"Water level {plant['water']} is too high (max 10)")
-            print(f"{plant['plant']}: healthy "
-                  f"(water: {plant['water']}, sun: {plant['sun']})")
-        except ValueError as e:
+            print(f"{plant['plant']}: healthy (water: {plant['water']}, "
+                  f"sun: {plant['sun']})")
+        except (ValueError, KeyError) as e:
             print(f"Error checking {plant['plant']}: {e}")
 
 
 def test_garden_management():
-    print("=== Garden Management System ===\n")
+    print("=== Garden Management System ===")
 
     garden = GardenManager()
-    print("Adding plants to garden...")
-    garden.add_plant("tomato", 10, 0)
-    garden.add_plant("lettuce", 15, 0)
-    garden.add_plant("", 30, 0)
+    print("\nAdding plants to garden...")
+    garden.add_plant("tomato", 5, 8)
+    garden.add_plant("lettuce", 15, 20)
+    garden.add_plant("", 30, 30)
 
-    print("\nWatering plants...")
-    garden.watering()
+    print("\nWatering Plants")
+    garden.water_plants()
 
     print("\nChecking plant health...")
     for plant in garden.plants:
@@ -61,8 +61,9 @@ def test_garden_management():
         raise GardenError()
     except GardenError as e:
         print(f"Caught GardenError: {e}")
+    finally:
+        print("System recovered and continuing...\n")
 
-    print("System recovered and continuing...\n")
     print("Garden management system test complete!")
 
 
