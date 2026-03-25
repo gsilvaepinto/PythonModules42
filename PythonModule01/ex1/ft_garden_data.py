@@ -3,7 +3,7 @@ class Plant:
         self.name = name
         self.height = height
         self.plant_age = age
-    
+
     def show(self):
         print(f"{self.name}: {self.height}cm, {self.plant_age} days old")
 

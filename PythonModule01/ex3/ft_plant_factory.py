@@ -8,7 +8,7 @@ class Plant:
         self.height += height
 
     def show(self):
-        return(f"{self.name}: {self.height:.1f}cm, {self.plant_age} days old")
+        return (f"{self.name}: {self.height:.1f}cm, {self.plant_age} days old")
 
 
 def main():
@@ -31,4 +31,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
