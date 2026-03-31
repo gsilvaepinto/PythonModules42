@@ -23,7 +23,7 @@ def test_watering_system() -> None:
     finally:
         print("Closing watering system\n")
 
-    print("Testing valid plants...")
+    print("Testing invalid plants...")
     try:
         print("Opening watering system")
         for plant in ["Tomato", "lettuce"]:

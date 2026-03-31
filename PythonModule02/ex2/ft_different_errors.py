@@ -21,4 +21,4 @@ def test_error_types() -> None:
             garden_operations(num)
         except Exception as e:
             print(f"Caught {e.__class__.__name__}: {e}")
-    print("All error types tested successfully!")
+    print("\nAll error types tested successfully!")

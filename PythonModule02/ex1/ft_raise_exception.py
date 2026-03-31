@@ -16,4 +16,4 @@ def test_temperature() -> None:
             print(f"Temperature is now {temp}°C\n")
         except ValueError as e:
             print(f"Caught input_temperature error: {e}\n")
-    print("\nAll tests completed - program didn't crash!")
+    print("All tests completed - program didn't crash!")
