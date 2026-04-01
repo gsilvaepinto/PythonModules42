@@ -1,21 +1,26 @@
 import sys
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("=== Player Score Analytics ===")
-    score = sys.argv[1:]
-    if len(score) == 0:
-        print("No scores provided. Usage: python3 ft_score_analytics.py "
-              "<score1> <score2> ...")
+    if len(sys.argv) == 1:
+        print("No scores provided. Usage: python3 "
+              "ft_score_analytics.py <score1> <score2> ...")
         sys.exit(1)
-    try:
-        converted = [int(arg) for arg in score]
-    except ValueError as e:
-        print(f"Error: {e}")
-        sys.exit(1)
-    print(f"Scores processed: {converted}")
-    print(f"Total players: {len(converted)}")
-    print(f"Total score: {sum(converted)}")
-    print(f"Average score: {sum(converted) / len(converted)}")
-    print(f"High score: {max(converted)}")
-    print(f"Low score: {min(converted)}")
-    print(f"Score range: {max(converted) - min(converted)}")
+    numbers = []
+    for score in sys.argv[1:]:
+        try:
+            value = int(score)
+            numbers.append(value)
+        except ValueError:
+            print(f"Invalid parameter: {score}")
+    if not numbers:
+        print("No scores provided. Usage: python3 "
+              "ft_score_analytics.py <score1> <score2> ...")
+    else:
+        print(f"Scores processed: {numbers}")
+        print(f"Total players: {len(numbers)}")
+        print(f"Total score: {sum(numbers)}")
+        print(f"Average score: {sum(numbers) / len(numbers)}")
+        print(f"High score: {max(numbers)}")
+        print(f"Low score: {min(numbers)}")
+        print(f"Score range: {max(numbers) - min(numbers)}")
