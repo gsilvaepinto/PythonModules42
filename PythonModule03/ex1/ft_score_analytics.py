@@ -6,21 +6,20 @@ if __name__ == "__main__":
         print("No scores provided. Usage: python3 "
               "ft_score_analytics.py <score1> <score2> ...")
         sys.exit(1)
-    numbers = []
+    scores = []
     for score in sys.argv[1:]:
         try:
-            value = int(score)
-            numbers.append(value)
+            scores.append(int(score))
         except ValueError:
-            print(f"Invalid parameter: {score}")
-    if not numbers:
+            print(f"Invalid parameter: '{score}'")
+    if not scores:
         print("No scores provided. Usage: python3 "
               "ft_score_analytics.py <score1> <score2> ...")
     else:
-        print(f"Scores processed: {numbers}")
-        print(f"Total players: {len(numbers)}")
-        print(f"Total score: {sum(numbers)}")
-        print(f"Average score: {sum(numbers) / len(numbers)}")
-        print(f"High score: {max(numbers)}")
-        print(f"Low score: {min(numbers)}")
-        print(f"Score range: {max(numbers) - min(numbers)}")
+        print(f"Scores processed: {scores}")
+        print(f"Total players: {len(scores)}")
+        print(f"Total scores: {sum(scores)}")
+        print(f"Average score: {sum(scores) / len(scores)}")
+        print(f"High score: {max(scores)}")
+        print(f"Low score: {min(scores)}")
+        print(f"Score range: {max(scores) - min(scores)}")
