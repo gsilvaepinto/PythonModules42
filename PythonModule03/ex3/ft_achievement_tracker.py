@@ -16,8 +16,10 @@ ALL_ACHIEVEMENTS = [
     "Hidden Path Finder"
 ]
 
+
 def gen_player_achievements() -> set:
-    return set(random.sample(ALL_ACHIEVEMENTS, random.randint(1, len(ALL_ACHIEVEMENTS))))
+    return set(random.sample(ALL_ACHIEVEMENTS,
+                             random.randint(1, len(ALL_ACHIEVEMENTS))))
 
 
 if __name__ == "__main__":
