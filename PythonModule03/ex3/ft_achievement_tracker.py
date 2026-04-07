@@ -31,17 +31,17 @@ if __name__ == "__main__":
     }
 
     for name in players:
-        print(f"Player {name}: ", players[name])
-    
+        print(f"Player {name}: {players[name]}")
+
     distinct = set()
     for name in players:
         distinct = distinct.union(players[name])
-    print(f"\nAll distinct achievements: {distinct}")
+    print(f"\nAll distinct achievements: {distinct}\n")
 
     common = set(ALL_ACHIEVEMENTS)
     for name in players:
         common = common.intersection(players[name])
-    print(f"\nCommon achievements: {common}\n")
+    print(f"Common achievements: {common}\n")
 
     for name in players:
         others = set()
