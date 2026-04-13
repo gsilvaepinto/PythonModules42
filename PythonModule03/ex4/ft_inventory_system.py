@@ -32,11 +32,13 @@ if __name__ == '__main__':
     for item in inventory:
         if most is None or inventory[most] < inventory[item]:
             most = item
+    assert most is not None
     print(f"Item most abundant: {most} with quantity {inventory[most]}")
     least = None
     for item in inventory:
         if least is None or inventory[least] > inventory[item]:
             least = item
+    assert least is not None
     print(f"Item least abundant: {least} with quantity {inventory[least]}")
     inventory.update({'magic_item': 1})
     print(inventory)

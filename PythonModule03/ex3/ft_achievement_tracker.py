@@ -35,7 +35,7 @@ if __name__ == "__main__":
     for name in players:
         print(f"Player {name}: {players[name]}")
 
-    distinct = set()
+    distinct: set = set()
     for name in players:
         distinct = distinct.union(players[name])
     print(f"\nAll distinct achievements: {distinct}\n")
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     print(f"Common achievements: {common}\n")
 
     for name in players:
-        others = set()
+        others: set = set()
         for other in players:
             if other != name:
                 others = others.union(players[other])
