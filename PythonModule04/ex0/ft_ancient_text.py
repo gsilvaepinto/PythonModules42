@@ -1,16 +1,17 @@
 import sys
 import typing
 
+
 if __name__ == '__main__':
-    print("=== Cyber Archives Recovery ===")
     if len(sys.argv) == 1:
         print("Usage: ft_ancient_text.py <file>")
         sys.exit(1)
+    print("=== Cyber Archives Recovery ===")
     try:
         print(f"Accessing file '{sys.argv[1]}'")
         f: typing.IO[str] = open(sys.argv[1], "r")
         content: str = f.read()
-        lines = content.split("\n")
+        lines: list[str] = content.split("\n")
         f.close()
         print("---\n")
         for line in lines:
