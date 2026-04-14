@@ -4,7 +4,7 @@ import typing
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
-        print("Usage: ft_archive_creation.py <file>")
+        sys.stderr.write("Usage: ft_archive_creation.py <file>\n")
         sys.exit(1)
     print("=== Cyber Archives Recovery ===")
     try:
@@ -26,7 +26,9 @@ if __name__ == '__main__':
             print(line)
         print("\n---")
 
-        name: str = input("Enter new file name (or empty): ")
+        sys.stdout.write("Enter new file name (or empty): ")
+        sys.stdout.flush()
+        name = sys.stdin.readline().rstrip("\n")
         if name:
             print(f"Saving data to '{name}'")
             f = open(name, "w")
@@ -37,8 +39,8 @@ if __name__ == '__main__':
         else:
             print("Not saving data.")
     except FileNotFoundError as e:
-        print(f"Error opening file '{sys.argv[1]}': {e}")
+        sys.stderr.write(f"[STDERR] Error opening file '{sys.argv[1]}': {e}\n")
         sys.exit(1)
     except PermissionError as e:
-        print(f"Error opening file '{sys.argv[1]}': {e}")
+        sys.stderr.write(f"[STDERR] Error opening file '{sys.argv[1]}': {e}\n")
         sys.exit(1)
