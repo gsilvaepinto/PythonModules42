@@ -81,18 +81,16 @@ class LogProcessor(DataProcessor):
             result = False
         return result
 
-    def ingest(self, data: typing.Union[dict, list]) -> None:
+    def ingest(self, data: dict | list) -> None:
         if not self.validate(data):
             raise TypeError("Improper log data")
         if isinstance(data, dict):
-            self.data.append(data)
+            self.data.append(f"{data['log_level']}: {data['log_message']}")
         else:
             for value in data:
-                self.data.append(value)
-
-    def output(self) -> tuple[int, str]:
-        index, data = super().output()
-        return index, f"{data['log_level']}: {data['log_message']}"
+                self.data.append(
+                    f"{value['log_level']}: {value['log_message']}"
+                )
 
 
 if __name__ == "__main__":
@@ -128,7 +126,8 @@ if __name__ == "__main__":
 
     print("\nTesting Log Processor...")
     logprocessor = LogProcessor()
-    print(f"Trying to validate input 'Hello': {logprocessor.validate('Hello')}")
+    result = logprocessor.validate('Hello')
+    print(f"Trying to validate input 'Hello': {result}")
     logs = [
         {'log_level': 'NOTICE', 'log_message': 'Connection to server'},
         {'log_level': 'ERROR', 'log_message': 'Unauthorized access!!'}

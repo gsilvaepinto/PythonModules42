@@ -3,9 +3,9 @@ from abc import ABC, abstractmethod
 
 
 class DataProcessor(ABC):
-    def __init__(self):
-        self.data = []
-        self.index = -1
+    def __init__(self) -> None:
+        self.data: list[str] = []
+        self.index: int = -1
 
     @abstractmethod
     def validate(self, data: typing.Any) -> bool:
@@ -34,15 +34,13 @@ class NumericProcessor(DataProcessor):
         return result
 
     def ingest(self, data: typing.Union[int, float, list]) -> None:
+        if not self.validate(data):
+            raise TypeError("Improper numeric data")
         if isinstance(data, (int, float)):
             self.data.append(str(data))
-        elif isinstance(data, list) and all(
-            isinstance(i, (int, float)) for i in data
-        ):
+        else:
             for value in data:
                 self.data.append(str(value))
-        else:
-            raise TypeError("Improper numeric data")
 
 
 class TextProcessor(DataProcessor):
@@ -56,13 +54,13 @@ class TextProcessor(DataProcessor):
         return result
 
     def ingest(self, data: typing.Union[str, list]) -> None:
+        if not self.validate(data):
+            raise TypeError("Improper string data")
         if isinstance(data, str):
             self.data.append(data)
-        elif isinstance(data, list) and all(isinstance(i, str) for i in data):
+        else:
             for value in data:
                 self.data.append(value)
-        else:
-            raise TypeError("Improper string data")
 
 
 class LogProcessor(DataProcessor):
@@ -78,22 +76,17 @@ class LogProcessor(DataProcessor):
         return result
 
     def ingest(self, data: typing.Union[dict, list]) -> None:
+        if not self.validate(data):
+            raise TypeError("Improper log data")
         if isinstance(data, dict):
-            self.data.append(data)
-        elif isinstance(data, list) and all(
-            isinstance(i, dict) and all(
-                isinstance(k, str) and isinstance(v, str)
-                for k, v in i.items()
-            ) for i in data
-        ):
+            self.data.append(f"{data['log_level']}: {data['log_message']}")
+        else:
             for i in data:
                 self.data.append(f"{i['log_level']}: {i['log_message']}")
-        else:
-            raise TypeError("Improper log data")
 
 
 class DataStream:
-    def __init__(self):
+    def __init__(self) -> None:
         self.processors: list[DataProcessor] = []
         self.total: dict[str, int] = {}
 
@@ -157,7 +150,7 @@ if __name__ == "__main__":
     text = TextProcessor()
     log = LogProcessor()
     print("\nRegistering other data processors")
-    print("Print the same batch again")
+    print("Send the same batch again")
     ds.register_processor(text)
     ds.register_processor(log)
     ds.process_stream(batch)
