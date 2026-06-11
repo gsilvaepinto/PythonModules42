@@ -31,19 +31,16 @@ class NumericProcessor(DataProcessor):
             result = True
         else:
             result = False
-        print(f"Trying to validate input '{data}': {result}")
         return result
 
-    def ingest(self, data: typing.Union[int, float, list]) -> None:
+    def ingest(self, data: int | float | list) -> None:
+        if not self.validate(data):
+            raise TypeError('Improper numeric data')
         if isinstance(data, (int, float)):
             self.data.append(str(data))
-        elif isinstance(data, list) and all(
-            isinstance(i, (int, float)) for i in data
-        ):
+        else:
             for value in data:
                 self.data.append(str(value))
-        else:
-            raise TypeError("Improper numeric data")
 
 
 class TextProcessor(DataProcessor):
@@ -54,53 +51,56 @@ class TextProcessor(DataProcessor):
             result = True
         else:
             result = False
-        print(f"Trying to validate input '{data}':", result)
         return result
 
-    def ingest(self, data: typing.Union[str, list]) -> None:
+    def ingest(self, data: str | list) -> None:
+        if not self.validate(data):
+            raise TypeError("Improper string data")
         if isinstance(data, str):
             self.data.append(data)
-        elif isinstance(data, list) and all(isinstance(i, str) for i in data):
+        else:
             for value in data:
                 self.data.append(value)
-        else:
-            raise TypeError("Improper string data")
 
 
 class LogProcessor(DataProcessor):
     def validate(self, data: typing.Any) -> bool:
-        if isinstance(data, dict):
-            result = True
-        elif isinstance(data, list) and all(
-            isinstance(i, dict) for i in data
+        if isinstance(data, dict) and all(
+            isinstance(k, str) and isinstance(v, str)
+            for k, v in data.items()
         ):
             result = True
-        else:
-            result = False
-        print(f"Trying to validate input '{data}':", result)
-        return result
-
-    def ingest(self, data: typing.Union[dict, list]) -> None:
-        if isinstance(data, dict):
-            self.data.append(data)
         elif isinstance(data, list) and all(
             isinstance(i, dict) and all(
                 isinstance(k, str) and isinstance(v, str)
                 for k, v in i.items()
             ) for i in data
         ):
-            for i in data:
-                self.data.append(f"{i['log_level']}: {i['log_message']}")
+            result = True
         else:
+            result = False
+        return result
+
+    def ingest(self, data: typing.Union[dict, list]) -> None:
+        if not self.validate(data):
             raise TypeError("Improper log data")
+        if isinstance(data, dict):
+            self.data.append(data)
+        else:
+            for value in data:
+                self.data.append(value)
+
+    def output(self) -> tuple[int, str]:
+        index, data = super().output()
+        return index, f"{data['log_level']}: {data['log_message']}"
 
 
 if __name__ == "__main__":
     print("=== Code Nexus - Data Processor ===\n")
     print("Testing Numeric Processor...")
     processor = NumericProcessor()
-    processor.validate(42)
-    processor.validate('Hello')
+    print(f"Trying to validate input '42': {processor.validate(42)}")
+    print(f"Trying to validate input 'Hello': {processor.validate('Hello')}")
     try:
         print("Test invalid ingestion of string 'foo' "
               "without prior validation:")
@@ -117,7 +117,7 @@ if __name__ == "__main__":
 
     print("\nTesting Text Processor...")
     textprocessor = TextProcessor()
-    textprocessor.validate(42)
+    print(f"Trying to validate input '42': {textprocessor.validate(42)}")
     values = ['Hello', 'Nexus', 'World']
     textprocessor.ingest(values)
     print(f"Processing data: {values}")
@@ -128,7 +128,7 @@ if __name__ == "__main__":
 
     print("\nTesting Log Processor...")
     logprocessor = LogProcessor()
-    logprocessor.validate('Hello')
+    print(f"Trying to validate input 'Hello': {logprocessor.validate('Hello')}")
     logs = [
         {'log_level': 'NOTICE', 'log_message': 'Connection to server'},
         {'log_level': 'ERROR', 'log_message': 'Unauthorized access!!'}
